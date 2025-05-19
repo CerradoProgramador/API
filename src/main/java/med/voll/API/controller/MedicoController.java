@@ -1,5 +1,7 @@
 package med.voll.API.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import med.voll.API.domain.medico.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ public class MedicoController {
 
     @PostMapping
     @Transactional
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroMedico dados, UriComponentsBuilder uriBuilder) {
         var medico = new Medico(dados);
         medicoRepository.save(medico);
@@ -27,13 +30,13 @@ public class MedicoController {
         var uri = uriBuilder.path("medicos/{id}").buildAndExpand(medico.getId()).toUri();
         return ResponseEntity.created(uri).body(new DadosDetalhamentoMedico(medico));
     }
-
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") })
     @GetMapping
     public ResponseEntity<Page<DadosListagemMedico>> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable pageable){
         var page = medicoRepository.findAllByAtivoTrue(pageable).map(DadosListagemMedico::new);
         return ResponseEntity.ok(page);
     }
-
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") })
     @PutMapping
     @Transactional
     public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizacaoMedico dados){
@@ -42,7 +45,7 @@ public class MedicoController {
 
         return ResponseEntity.ok(new DadosDetalhamentoMedico(medico));
     }
-
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") })
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity excluir(@PathVariable Long id){
@@ -51,7 +54,7 @@ public class MedicoController {
 
         return ResponseEntity.noContent().build();
     }
-
+    @Operation(security = { @SecurityRequirement(name = "bearer-key") })
     @GetMapping("/{id}")
     public ResponseEntity detalhar(@PathVariable Long id){
 

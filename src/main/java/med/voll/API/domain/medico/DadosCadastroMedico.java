@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Pattern;
 import med.voll.API.domain.endereco.DadosEndereco;
 
 public record DadosCadastroMedico(
-        @NotBlank
+        @NotBlank(message = "Deverá ter um nome")
         String nome,
         @NotBlank
         @Email

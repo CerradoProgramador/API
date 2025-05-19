@@ -2,17 +2,16 @@ package med.voll.API.domain.paciente;
 
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import med.voll.API.domain.endereco.Endereco;
 
 @Setter
-@Getter
-@NoArgsConstructor
+
 @Entity(name = "Paciente")
 @Table(name = "pacientes")
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Paciente {
     @Id
@@ -25,8 +24,6 @@ public class Paciente {
     private boolean ativo;
     @Embedded
     private Endereco endereco;
-
-
 
     public Paciente(DadosCadastroPaciente dados){
         this.nome = dados.nome();
